@@ -1,30 +1,33 @@
 import DB from "@/Config/db";
-import { TAlbumPayload } from "./album.types";
+import { TAlbumPayload, TAlbumQueryResponse } from "./album.types";
 
 const allAlbums = async () => {
     const result = await DB.query(`
     SELECT artists.id, artists.name, albums.id AS album_id, albums.title, albums.release_year, albums.genre
     FROM artists
-    JOIN albums_artists ON artists.id = albums_artists.artist_id
-    JOIN albums ON albums_artists.album_id = albums.id;
+    FULL JOIN albums_artists ON artists.id = albums_artists.artist_id
+    FULL JOIN albums ON albums_artists.album_id = albums.id;
     `);
     let modifiedData = [];
 
     for (const each of result.rows) {
         const alreadyAdded = modifiedData.find((item) => item.id === each.album_id)
         if (!alreadyAdded) {
-            modifiedData.push({
+            const tempData:TAlbumQueryResponse = {
                 id: each.album_id,
                 title: each.title,
                 release_year: each.release_year,
                 genre: each.genre,
-                artists: [{
-                    id: each.id,
-                    name: each.name
-                }]
+                artists:[]
+            }
+
+            each?.id && tempData?.artists?.push({
+                id: each.id,
+                name: each.name
             })
+            modifiedData.push(tempData)
         } else {
-            modifiedData.find((item) => item.id === each.album_id)?.artists.push({
+            modifiedData.find((item) => item.id === each.album_id)?.artists?.push({
                 id: each.id,
                 name: each.name
             })

@@ -4,6 +4,13 @@ export type TAlbumPayload = {
     genre: string
 }
 
-export type TAlbumResponse ={
-    
-}
+export type TAlbumQueryResponse = {
+    id: number,
+    title: string,
+    release_year: number,
+    genre: string,
+    artists?: {
+        id: number,
+        name: string
+    }[]
+} 
