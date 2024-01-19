@@ -1,10 +1,11 @@
+import { Pool } from "pg";
 
-const connectDB = async () => {
-    try {
-        
-    } catch (e) {
-        console.log(" from config ====>", e instanceof Error && e.message)
-    }
-}
+const DB = new Pool({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'music_player',
+    password: 'postgres',
+    port: 5432
+})
 
-export default connectDB
+export default DB
