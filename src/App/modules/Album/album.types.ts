@@ -3,3 +3,7 @@ export type TAlbumPayload = {
     release_year: number,
     genre: string
 }
+
+export type TAlbumResponse ={
+    
+}
