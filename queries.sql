@@ -23,3 +23,14 @@ CREATE TABLE albums_artists(
    artist_id int REFERENCES artists (id) ON DELETE CASCADE,
    PRIMARY KEY(album_id, artist_id)
 );
+
+/* create TABLE for songs */
+CREATE TABLE musics(
+    id serial primary key,
+    title VARCHAR(255) NOT NULL,
+    duration FLOAT(2) NOT NULL,
+    album_id int REFERENCES albums (id) ON DELETE CASCADE,
+    url VARCHAR(255) NOT NULL
+);
+
+INSERT INTO musics(title,duration,album_id,url) VALUES('title',3.33,2,'google.com');
