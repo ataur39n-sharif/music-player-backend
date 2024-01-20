@@ -13,12 +13,12 @@ const allAlbums = async () => {
     for (const each of result.rows) {
         const alreadyAdded = modifiedData.find((item) => item.id === each.album_id)
         if (!alreadyAdded) {
-            const tempData:TAlbumQueryResponse = {
+            const tempData: TAlbumQueryResponse = {
                 id: each.album_id,
                 title: each.title,
                 release_year: each.release_year,
                 genre: each.genre,
-                artists:[]
+                artists: []
             }
 
             each?.id && tempData?.artists?.push({
@@ -50,8 +50,20 @@ const newAlbum = async (data: TAlbumPayload) => {
 }
 
 
+const createRelation = async (artist_id: number, album_id: number) => {
+    const result = await DB.query(`INSERT INTO albums_artists(album_id,artist_id) VALUES($1,$2)`, [
+        album_id, artist_id
+    ])
+    if (result.rowCount && result.rowCount > 0) {
+        return true
+    } else {
+        return false
+    }
+}
+
 
 export const AlbumService = {
     allAlbums,
-    newAlbum
+    newAlbum,
+    createRelation
 }

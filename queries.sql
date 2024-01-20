@@ -32,5 +32,3 @@ CREATE TABLE musics(
     album_id int REFERENCES albums (id) ON DELETE CASCADE,
     url VARCHAR(255) NOT NULL
 );
-
-INSERT INTO musics(title,duration,album_id,url) VALUES('title',3.33,2,'google.com');

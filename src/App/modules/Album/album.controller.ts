@@ -31,7 +31,22 @@ const createNewAlbum = catchAsync(async (req: Request, res: Response, next: Next
     })
 })
 
+const createRelation = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const payload = z.object({
+        album_id: z.number(),
+        artist_id: z.number()
+    }).parse(req.body)
+
+    const data = await AlbumService.createRelation(payload.artist_id, payload.album_id)
+
+    sendResponse.success(res, {
+        statusCode: 201,
+        message: data ? "Successfully created relation between artist and album" : ""
+    })
+})
+
 export const AlbumController = {
     fetchAlbumList,
-    createNewAlbum
+    createNewAlbum,
+    createRelation
 }
